@@ -6,8 +6,7 @@ const vale = document.querySelector("#vale");
 const comprimento = document.querySelector("#comprimento");
 
 submit.addEventListener("click", () => {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	drawWave(parseInt(crista.value), parseInt(vale.value), parseInt(comprimento.value));
+	animate();
 });
 
 function rotateBezCur(ctx, posx, posy, crista, vale, comprimento) {
@@ -19,9 +18,21 @@ function rotateBezCur(ctx, posx, posy, crista, vale, comprimento) {
 	ctx.stroke();
 }
 
-function drawWave(crista=0, vale=0, comprimento=0) {
+function drawWave(crista=0, vale=0, comprimento=0, xoff=0) {
 	const numDeOndas = 100;
 	for (let i = 0; i < numDeOndas; i++) {
-			rotateBezCur(ctx, (i*115)+(comprimento*(i*2))-25, -240, crista, vale, comprimento);
+			rotateBezCur(ctx, ((i*115)+(comprimento*(i*2))-25)+xoff, -240, crista, vale, comprimento);
+	}
+}
+
+let x = 0;
+function animate() {
+	requestAnimationFrame(animate);
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	drawWave(parseInt(crista.value), parseInt(vale.value), parseInt(comprimento.value), x);
+	if (x == -214) {
+		x = 0;
+	} else {
+		x--;
 	}
 }
